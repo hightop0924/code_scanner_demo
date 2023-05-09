@@ -449,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
         if (device.getDeviceType() != DeviceType.kModelSocketCamC820) {
             stopSocketCamExtension();
         }
-        Log.d(tag, "Scanner : " + device.getDeviceName() + " - " + device.getDeviceGuid());
+        Log.d(tag, "Scanner  : " + device.getDeviceName() + " - " + device.getDeviceGuid());
 
         switch (scannerStatus) {
             case DeviceState.AVAILABLE: {
