@@ -4,12 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
@@ -35,6 +38,8 @@ import com.socketmobile.capture.AppKey;
 import com.socketmobile.capture.CaptureError;
 import com.socketmobile.capture.Property;
 import com.socketmobile.capture.SocketCamStatus;
+import com.socketmobile.capture.android.Capture;
+import com.socketmobile.capture.android.events.ConnectionStateEvent;
 import com.socketmobile.capture.client.CaptureClient;
 import com.socketmobile.capture.client.*;
 import com.socketmobile.capture.client.callbacks.PropertyCallback;
@@ -64,10 +69,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String SAVED_ARTIKEL_LISTE_KEY = "saved_artikel_liste";
     private HashMap<String, DeviceState> deviceStateMap = new HashMap<String, DeviceState>();
     private HashMap<String, DeviceClient> deviceClientMap = new HashMap<String, DeviceClient>();
-
+    private Button deviceButton = null;
     private SocketCamDeviceReadyListener socketCamDeviceReadyListener = null;
     private CaptureExtension captureExtension = null;
     private int serviceStatus = ConnectionState.DISCONNECTED;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         suchenButton = findViewById(R.id.suchen_button);
         artikelListe = findViewById(R.id.artikel_liste);
         cameraButton = findViewById(R.id.Camera);
+//        deviceButton = (Button) findViewById(R.id.deviceButton);
 
         artikelAdapter = new ArtikelAdapter(this, artikelListeData);
         artikelListe.setAdapter(artikelAdapter);
@@ -196,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String artikelnummer = artikelnummerInput.getText().toString();
-                if(!artikelnummer.isEmpty()) {
+                if (!artikelnummer.isEmpty()) {
                     switch (artikelnummer.length()) {
                         case 19:
                             artikelnummer = artikelnummer.substring(0, 14);
@@ -213,7 +220,8 @@ public class MainActivity extends AppCompatActivity {
                             artikelnummer = artikelnummer.substring(0, 18);
                             break;
                         default:
-                            break;}
+                            break;
+                    }
 
                     try {
                         Artikel artikel = dbHelper.getArtikel(artikelnummer);
@@ -234,11 +242,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         cameraButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onScanClicked();
-                }
-            }
+                                            @Override
+                                            public void onClick(View v) {
+                                                onScanClicked();
+                                            }
+                                        }
         );
 
         artikelnummerInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -274,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
     private void onScanClicked() {
         if (canTriggerScanner()) {
             triggerDevices();
-        }else {
+        } else {
             showCompanionDialog();
         }
     }
@@ -300,6 +308,8 @@ public class MainActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+        builder.create().show();
+
 
 //        val dialogFrag = CompanionDialogFragment()
 //        dialogFrag.companionDialogListener = object: OnCompanionDialogListener {
@@ -312,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startSocketCamExtension() {
         CaptureClient client = captureClient;
-        if (captureClient != null){
+        if (captureClient != null) {
             socketCamDeviceReadyListener = new SocketCamDeviceReadyListener() {
                 @Override
                 public void onSocketCamDeviceReady() {
@@ -353,17 +363,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void triggerDevices() {
         List<DeviceClient> readyDevices = deviceStateMap.entrySet()
-            .stream()
-            .filter(entry -> entry.getValue().intValue() == DeviceState.READY)
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-            .keySet()
-            .stream()
-            .map(entry -> deviceClientMap.get(entry))
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList());
-         List<DeviceClient> bluetoothReaders = readyDevices.stream()
-                 .filter(device -> (device.getDeviceType() != DeviceType.kModelSocketCamC820))
-                 .collect(Collectors.toList());
+                .stream()
+                .filter(entry -> entry.getValue().intValue() == DeviceState.READY)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+                .keySet()
+                .stream()
+                .map(entry -> deviceClientMap.get(entry))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        List<DeviceClient> bluetoothReaders = readyDevices.stream()
+                .filter(device -> (device.getDeviceType() != DeviceType.kModelSocketCamC820))
+                .collect(Collectors.toList());
         List<DeviceClient> socketCamDevices = readyDevices.stream()
                 .filter(device -> (device.getDeviceType() == DeviceType.kModelSocketCamC820))
                 .collect(Collectors.toList());
@@ -373,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
                 device.trigger(new PropertyCallback() {
                     @Override
                     public void onComplete(CaptureError captureError, Property property) {
-                        Log.d(tag, "trigger callback : "  + captureError + " : " + property);
+                        Log.d(tag, "trigger callback : " + captureError + " : " + property);
                     }
                 });
             }
@@ -382,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
                     .trigger(new PropertyCallback() {
                         @Override
                         public void onComplete(CaptureError captureError, Property property) {
-                            Log.d(tag, "trigger callback : "  + captureError + " : " + property);
+                            Log.d(tag, "trigger callback : " + captureError + " : " + property);
                         }
                     });
         }
@@ -408,6 +418,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean canTriggerScanner() {
         return isServiceConnected() && isConnectedDevice();
     }
+
     private boolean isConnectedDevice() {
         return deviceStateMap.entrySet()
                 .stream()
@@ -417,8 +428,154 @@ public class MainActivity extends AppCompatActivity {
 //        return deviceStateMap.filter { entry -> entry.value.intValue() == DeviceState.READY }.count() > 0
     }
 
-    private boolean isServiceConnected(){
+    private boolean isServiceConnected() {
         return serviceStatus == ConnectionState.READY;
+    }
+
+    private void stopSocketCamExtension() {
+        if (captureExtension != null)
+            captureExtension.stop();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    void onCaptureDeviceStateChange(DeviceStateEvent event) {
+        DeviceClient device = event.getDevice();
+        DeviceState state = event.getState();
+        int scannerStatus = state.intValue();
+        String deviceGuid = device.getDeviceGuid();
+        deviceStateMap.put(deviceGuid, state);
+        deviceClientMap.put(deviceGuid, device);
+
+        if (device.getDeviceType() != DeviceType.kModelSocketCamC820) {
+            stopSocketCamExtension();
+        }
+        Log.d(tag, "Scanner : " + device.getDeviceName() + " - " + device.getDeviceGuid());
+
+        switch (scannerStatus) {
+            case DeviceState.AVAILABLE: {
+                Log.d(tag, "Scanner State Available.");
+                break;
+            }
+            case DeviceState.OPEN: {
+                Log.d(tag, "Scanner State Open.");
+                break;
+            }
+            case DeviceState.READY: {
+                Log.d(tag, "Scanner State Ready.");
+                socketCamDeviceReadyListener.onSocketCamDeviceReady();
+                socketCamDeviceReadyListener = null;
+                break;
+            }
+            case DeviceState.GONE: {
+                Log.d(tag, "Scanner State Gone.");
+                deviceStateMap.remove(deviceGuid);
+                deviceClientMap.remove(deviceGuid);
+                break;
+            }
+            default:
+                Log.d(tag, "Scanner State " + scannerStatus);
+                break;
+        }
+        updateDeviceButton();
+    }
+
+    private void updateDeviceButton() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                enableDeviceButton(canTriggerScanner());
+            }
+        });
+    }
+
+    private void enableDeviceButton(boolean enabled) {
+//        deviceButton.isEnabled = enabled;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    void onCaptureServiceConnectionStateChange(ConnectionStateEvent event) {
+        ConnectionState state = event.getState();
+
+        if (state.hasError()) {
+            CaptureError error = state.getError();
+            Log.d(tag, "Error on service connection. Error: " + error.getCode() + " " + error.getMessage());
+            switch (error.getCode()) {
+                case CaptureError.COMPANION_NOT_INSTALLED: {
+                    AlertDialog alert = new AlertDialog.Builder(this)
+                            .setMessage(R.string.prompt_install_companion)
+                            .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setNegativeButton("Install", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.companion_store_url)));
+                                    startActivity(i);
+                                }
+                            }).create();
+                    alert.show();
+                    break;
+                }
+                case CaptureError.SERVICE_NOT_RUNNING: {
+                    if (state.isDisconnected()) {
+                        if (Capture.notRestartedRecently()) {
+                            Capture.restart(this);
+                        }
+                    }
+                    break;
+                }
+                case CaptureError.BLUETOOTH_NOT_ENABLED: {
+                    Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                        // T ODO: Consider calling
+                        //    A ctivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        break;
+                    }
+                    startActivity(i);
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+            }
+        } else {
+            captureClient = event.getClient();
+
+            serviceStatus = state.intValue();
+            Log.d(tag, "Service Status is changed to " + serviceStatus + " (" + state +")");
+            switch (serviceStatus) {
+                case ConnectionState.CONNECTING:
+                {
+                    break;
+                }
+                case ConnectionState.CONNECTED:
+                {
+                    break;
+                }
+                case ConnectionState.READY:
+                {
+                    break;
+                }
+                case ConnectionState.DISCONNECTING:
+                {
+                    break;
+                }
+                case ConnectionState.DISCONNECTED:
+                {
+                    break;
+                }
+            }
+        }
+        updateDeviceButton();
     }
 
     @Override
