@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/artikelnummer_input"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:hint="QR Code"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/suchen_button"
+        android:layout_width="95dp"
+        android:layout_height="41dp"
+        android:layout_marginRight="10dp"
+        android:text="Suchen"
+        android:textAlignment="center"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/artikelnummer_input"
+        app:layout_constraintEnd_toStartOf="@+id/plus" />
+
+    <Button
+        android:id="@+id/plus"
+        android:layout_width="60dp"
+        android:layout_height="41dp"
+        android:text="+"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@+id/suchen_button"
+        app:layout_constraintEnd_toEndOf="@+id/Share" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/artikel_liste"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/Share"
+        app:layout_constraintEnd_toEndOf="@+id/plus"
+        app:layout_constraintStart_toStartOf="@+id/artikelnummer_input"
+        app:layout_constraintTop_toBottomOf="@+id/T2012" />
+
+    <TextView
+        android:id="@+id/T2011"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="T2011: 0"
+        android:textSize="10dp"
+        app:layout_constraintStart_toStartOf="@+id/artikelnummer_input"
+        app:layout_constraintTop_toBottomOf="@+id/artikelnummer_input" />
+
+    <TextView
+        android:id="@+id/T2012"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="T2012: 0"
+        android:textSize="10dp"
+        app:layout_constraintStart_toStartOf="@+id/artikelnummer_input"
+        app:layout_constraintTop_toBottomOf="@+id/T2011" />
+
+    <TextView
+        android:id="@+id/T3011"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="T3011: 0"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@id/T2011"
+        app:layout_constraintTop_toTopOf="@+id/T2011" />
+
+    <TextView
+        android:id="@+id/T3012"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="T3012: 0"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@id/T2012"
+        app:layout_constraintTop_toTopOf="@+id/T2012" />
+
+    <TextView
+        android:id="@+id/T4111"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="T4111: 0"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@id/T3011"
+        app:layout_constraintTop_toTopOf="@+id/T3011" />
+
+    <TextView
+        android:id="@+id/T4112"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="T4112: 0"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@id/T3012"
+        app:layout_constraintTop_toTopOf="@+id/T3012" />
+
+    <TextView
+        android:id="@+id/T2031"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="T2031: 0"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@id/T4111"
+        app:layout_constraintTop_toTopOf="@+id/T4111" />
+
+    <TextView
+        android:id="@+id/T2032"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="T2032: 0"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@id/T4112"
+        app:layout_constraintTop_toTopOf="@+id/T4112" />
+
+    <TextView
+        android:id="@+id/T6111"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="T6111: 0"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@id/T2031"
+        app:layout_constraintTop_toTopOf="@+id/T2031" />
+
+    <TextView
+        android:id="@+id/T6112"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="T6112: 0"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@id/T2032"
+        app:layout_constraintTop_toTopOf="@+id/T2032" />
+
+    <TextView
+        android:id="@+id/T5001"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="T5001: 0"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@id/T6111"
+        app:layout_constraintTop_toTopOf="@+id/T6111" />
+
+    <TextView
+        android:id="@+id/T5002"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="T5002: 0"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@id/T6112"
+        app:layout_constraintTop_toTopOf="@+id/T6112" />
+
+    <Button
+        android:id="@+id/Camera"
+        android:layout_width="95dp"
+        android:layout_height="41dp"
+        android:textSize="12dp"
+        android:text="Camera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/Share" />
+
+    <Button
+        android:id="@+id/Clear"
+        android:layout_width="95dp"
+        android:layout_height="41dp"
+        android:text="Clear"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toStartOf="@+id/Share"
+        app:layout_constraintStart_toEndOf="@+id/Camera"
+        app:layout_constraintTop_toTopOf="@+id/Camera" />
+
+    <Button
+        android:id="@+id/Share"
+        android:layout_width="95dp"
+        android:layout_height="41dp"
+        android:text="Share"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
