@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,6 +57,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int PERMISSION_REQUEST_CODE = 200;
     private static final String tag = "MainAcitivity";
     public static final int ADD_ACTIVITY_REQUEST_CODE = 1;
     private CaptureClient captureClient = null;
@@ -75,11 +77,30 @@ public class MainActivity extends AppCompatActivity {
     private int serviceStatus = ConnectionState.DISCONNECTED;
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d(tag, "Permission granted");
+            } else {
+// Permissions denied
+                Log.e(tag, "Permission denied");
+            }
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        if (checkSelfPermission("android.permission.CAMERA") == PackageManager.PERMISSION_GRANTED)
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+            } else {
+                Log.e(tag, "Permission already granted");
+            }
+        }
 
         AppKey appkey = new AppKey("MCwCFBKVAWVaSNeqU75qHHyVvI6Yr0ELAhRM3btEthQxAV9ANMSkWuJ2CXGA8Q==",
                 "android:com.example.firsttry",
@@ -324,15 +345,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void startSocketCamExtension() {
         CaptureClient client = captureClient;
-        if (captureClient == null) {
-            socketCamDeviceReadyListener = new SocketCamDeviceReadyListener() {
-                @Override
-                public void onSocketCamDeviceReady() {
-                    triggerDevices();
-                }
-            };
+        if (captureClient == null){
             return;
         }
+        socketCamDeviceReadyListener = new SocketCamDeviceReadyListener() {
+            @Override
+            public void onSocketCamDeviceReady() {
+                triggerDevices();
+            }
+        };
         captureExtension = new CaptureExtension.Builder()
                 .setContext(this)
                 .setClientHandle(client.getHandle())
