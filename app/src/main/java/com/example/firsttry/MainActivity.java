@@ -79,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        if (checkSelfPermission("android.permission.CAMERA") == PackageManager.PERMISSION_GRANTED)
+
         AppKey appkey = new AppKey("MCwCFBKVAWVaSNeqU75qHHyVvI6Yr0ELAhRM3btEthQxAV9ANMSkWuJ2CXGA8Q==",
                 "android:com.example.firsttry",
                 "e1c1ca5c-fcda-ed11-a7c7-6045bd074938");
@@ -322,13 +324,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void startSocketCamExtension() {
         CaptureClient client = captureClient;
-        if (captureClient != null) {
+        if (captureClient == null) {
             socketCamDeviceReadyListener = new SocketCamDeviceReadyListener() {
                 @Override
                 public void onSocketCamDeviceReady() {
                     triggerDevices();
                 }
             };
+            return;
         }
         captureExtension = new CaptureExtension.Builder()
                 .setContext(this)
