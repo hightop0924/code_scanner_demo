@@ -29,14 +29,14 @@
         android:roundIcon="@mipmap/wdlogo"
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstTry"
-        android:name=".StockCountApplication"
+        android:name="com.example.firsttry.StockCountApplication"
         tools:targetApi="31">
         <activity
-            android:name=".Add"
+            android:name="com.example.firsttry.Add"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.firsttry.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
