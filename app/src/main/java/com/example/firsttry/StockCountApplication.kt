@@ -4,6 +4,7 @@ package com.example.firsttry
 
 import android.app.Application
 import android.os.Environment
+import at.wolframdental.Scanner.BuildConfig
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes

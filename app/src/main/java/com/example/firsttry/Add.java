@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import at.wolframdental.Scanner.R;
+
 public class Add extends AppCompatActivity {
 
     private Spinner typSpinner, positionSpinner, kieferSpinner, farbeSpinner, formSpinner;

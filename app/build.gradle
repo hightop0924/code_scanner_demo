@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.firsttry'
+    namespace 'at.wolframdental.Scanner'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.firsttry"
+        applicationId "at.wolframdental.Scanner"
         minSdk 24
         targetSdk 33
         versionCode 1

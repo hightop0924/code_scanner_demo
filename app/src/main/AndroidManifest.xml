@@ -50,7 +50,8 @@
             tools:replace="android:exported" />
         <meta-data
             android:name="com.socketmobile.capture.APP_KEY"
-            android:value="MCwCFBKVAWVaSNeqU75qHHyVvI6Yr0ELAhRM3btEthQxAV9ANMSkWuJ2CXGA8Q==" />
+            android:value="MC0CFQCCZVzNP52xT1qcAFuzC1v+d0wAvwIUeWjo449lobxw1jtB3sf23C68PXM=" />
+<!--            android:value="MCwCFBKVAWVaSNeqU75qHHyVvI6Yr0ELAhRM3btEthQxAV9ANMSkWuJ2CXGA8Q==" />-->
         <meta-data
             android:name="com.socketmobile.capture.DEVELOPER_ID"
             android:value="e1c1ca5c-fcda-ed11-a7c7-6045bd074938" />
