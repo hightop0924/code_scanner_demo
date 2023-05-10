@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'at.wolframdental.Scanner'
+//    namespace 'at.wolframdental.Scanner'
     compileSdk 33
 
     defaultConfig {
