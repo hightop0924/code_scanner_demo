@@ -17,13 +17,13 @@ class StockCountApplication: Application() {
     override fun onCreate() {
         super.onCreate()
 
-        AppCenter.start(this, BuildConfig.APP_CENTER_KEY,
+        AppCenter.start(this, "null",
                     Analytics::class.java, Crashes::class.java)
 
         Realm.init(applicationContext)
 
         Capture.builder(applicationContext)
-                .enableLogging(BuildConfig.DEBUG)
+                .enableLogging(true)
                 .build()
 
         if (isExternalStorageWritable()) {

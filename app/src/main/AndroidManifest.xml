@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.socketmobile.stockcount">
+    package="at.wolframdental.Scanner">
 
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -25,9 +26,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name="com.socketmobile.stockcount.StockCountApplication">
+
         <activity
-            android:name="com.socketmobile.stockcount.ui.SplashActivity"
+            android:name="com.socketmobile.stockcount.ui.EditActivity"
+            android:label=""
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,33 +39,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.socketmobile.stockcount.ui.InstructionActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.socketmobile.stockcount.ui.HomeActivity"
-            android:label="All Files"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.socketmobile.stockcount.ui.EditActivity"
-            android:label=""
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"/>
-        <activity
-            android:name="com.socketmobile.stockcount.ui.OptionsActivity"
-            android:label=""
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.socketmobile.stockcount.ui.ScanSettingsActivity"
-            android:label="Scan Settings"
-            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.socketmobile.capture.APP_KEY"
-            android:value="@string/app_key"/>
+            android:value="MC0CFQCCZVzNP52xT1qcAFuzC1v+d0wAvwIUeWjo449lobxw1jtB3sf23C68PXM="/>
         <meta-data
             android:name="com.socketmobile.capture.DEVELOPER_ID"
-            android:value="@string/developer_id"/>
+            android:value="e1c1ca5c-fcda-ed11-a7c7-6045bd074938"/>
 
         <receiver android:name="com.socketmobile.capture.socketcam.client.CaptureExtension$ConnectionStateReceiver"
             android:exported="true"

@@ -24,6 +24,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import at.wolframdental.Scanner.R
 import com.socketmobile.capture.CaptureError
 import com.socketmobile.capture.SocketCamStatus
 import com.socketmobile.capture.android.Capture
@@ -32,7 +33,6 @@ import com.socketmobile.capture.client.*
 import com.socketmobile.capture.client.callbacks.PropertyCallback
 import com.socketmobile.capture.socketcam.client.CaptureExtension
 import com.socketmobile.capture.troy.ExtensionScope
-import com.socketmobile.stockcount.R
 import com.socketmobile.stockcount.helper.*
 import com.socketmobile.stockcount.model.RMFile
 import io.realm.Realm
@@ -44,7 +44,7 @@ import java.io.FileOutputStream
 import java.util.*
 
 class EditActivity : AppCompatActivity() {
-    lateinit var file: RMFile
+//    lateinit var file: RMFile
     private var captureClient: CaptureClient? = null
     private var captureExtension: CaptureExtension? = null
     private var serviceStatus = ConnectionState.DISCONNECTED
@@ -57,7 +57,7 @@ class EditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         fileEditText.setOnFocusChangeListener { _, hasFocus ->
             editTypeView.visibility = if (hasFocus || true) View.VISIBLE else View.GONE
@@ -67,85 +67,63 @@ class EditActivity : AppCompatActivity() {
         scanButton.setOnClickListener {
             onScanClicked()
         }
-        scanRightButton.setOnClickListener {
-            onScanClicked()
-        }
-        abcButton.setOnClickListener {
-            toggleKeyboardNumeric()
-        }
-        useTextKeyboard()
-
-        if (intent != null) {
-            val fileName = intent.getStringExtra("fileName")
-            if (fileName != null) {
-                val file = getFile(fileName)
-                if (file != null) {
-                    this.file = file
-                    supportActionBar?.title = this.file.fileTitle
-                    fileEditText.setText(file.fileContent)
-                    goToEnd()
-                    return
-                }
-            }
-        }
-        finish()
+//        scanRightButton.setOnClickListener {
+//            onScanClicked()
+//        }
+//        abcButton.setOnClickListener {
+//            toggleKeyboardNumeric()
+//        }
+//        useTextKeyboard()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item?.itemId) {
-            R.id.menuDelete -> {
-                val dialog = AlertDialog.Builder(this)
-                        .setPositiveButton(R.string.ok) { _, _ ->
-                            deleteRMFile(file)
-                            finish()
-                        }.setNegativeButton(R.string.cancel) { dialog, _ ->
-                            dialog?.dismiss()
-                        }.setMessage("Remove file '${getFileNameWithExt(this, file)}'?")
-                        .create()
-                dialog.show()
-            }
-            R.id.menuSave -> {
-                Realm.getDefaultInstance().executeTransaction {
-                    file.fileContent = fileEditText.text.toString()
-                    val lines = file.fileContent.split("\n")
-                    if (lines.isNotEmpty()) {
-                        file.fileTitle = lines[0].trim()
-                    }
-                    if (lines.size > 1) {
-                        file.firstScan = lines[1].trim()
-                    }
-                }
-                hideKeyboard()
-                finish()
-            }
-            R.id.menuShare -> {
-                Realm.getDefaultInstance().executeTransaction {
-                    file.fileContent = fileEditText.text.toString()
-                }
-                shareContent()
-            }
-        }
+//        when(item?.itemId) {
+//            R.id.menuDelete -> {
+//                val dialog = AlertDialog.Builder(this)
+//                        .setPositiveButton(R.string.ok) { _, _ ->
+//                            deleteRMFile(file)
+//                            finish()
+//                        }.setNegativeButton(R.string.cancel) { dialog, _ ->
+//                            dialog?.dismiss()
+//                        }.setMessage("Remove file '${getFileNameWithExt(this, file)}'?")
+//                        .create()
+//                dialog.show()
+//            }
+//            R.id.menuSave -> {
+//                Realm.getDefaultInstance().executeTransaction {
+//                    file.fileContent = fileEditText.text.toString()
+//                    val lines = file.fileContent.split("\n")
+//                    if (lines.isNotEmpty()) {
+//                        file.fileTitle = lines[0].trim()
+//                    }
+//                    if (lines.size > 1) {
+//                        file.firstScan = lines[1].trim()
+//                    }
+//                }
+//                hideKeyboard()
+//                finish()
+//            }
+//            R.id.menuShare -> {
+//                Realm.getDefaultInstance().executeTransaction {
+//                    file.fileContent = fileEditText.text.toString()
+//                }
+//                shareContent()
+//            }
+//        }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.edit, menu)
+//        menuInflater.inflate(R.menu.edit, menu)
         return true
     }
 
 
     override fun onSupportNavigateUp(): Boolean {
-        finish()
         return true
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        when(keyCode) {
-            KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP -> {
-                onScanClicked()
-                return true
-            }
-        }
         return super.onKeyDown(keyCode, event)
     }
     private fun showCompanionDialog() {
@@ -202,55 +180,6 @@ class EditActivity : AppCompatActivity() {
             showCompanionDialog()
         }
     }
-    private fun toggleKeyboardNumeric() {
-        if (abcButton.text.toString() == getString(R.string.number_title)) {
-            useNumericKeyboard()
-        } else {
-            useTextKeyboard()
-        }
-    }
-    private fun useTextKeyboard() {
-        fileEditText.keyListener = TextKeyListener.getInstance()
-        abcButton.text = getString(R.string.number_title)
-    }
-    private fun useNumericKeyboard() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            fileEditText.keyListener = android.text.method.DigitsKeyListener.getInstance(Locale.US)
-        } else {
-            fileEditText.keyListener = android.text.method.DigitsKeyListener.getInstance()
-        }
-        abcButton.text = getString(R.string.alpha_title)
-    }
-    private fun hideKeyboard() {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        val view = currentFocus
-        if (view != null) {
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
-    }
-
-    private fun shareContent() {
-        val stockCountDir = File(cacheDir, "StockCount")
-        if (!stockCountDir.exists()) {
-            stockCountDir.mkdirs()
-        }
-        val tempFile = File(stockCountDir, getFileNameWithExt(this, file))
-        tempFile.deleteOnExit()
-        val fos = FileOutputStream(tempFile)
-        if (isConsolidatingCounts(this)) {
-            fos.write(getCountsAggregatedContent(this, file).toByteArray())
-        } else {
-            fos.write(file.fileContent.toByteArray())
-        }
-        fos.close()
-
-        val i = Intent(Intent.ACTION_SEND)
-        i.type = "text/plain"
-        i.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this, applicationContext.packageName + ".fileProvider", tempFile))
-        i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        val chooser = Intent.createChooser(i, getString(R.string.share_via))
-        startActivity(chooser)
-    }
 
     private fun triggerDevices() {
         val readyDevices = deviceStateMap
@@ -279,7 +208,7 @@ class EditActivity : AppCompatActivity() {
     }
 
     private fun addScanData(data: String) {
-        val newContent = fileEditText.text.toString() + data
+        val newContent = data
         fileEditText.setText(newContent)
         goToEnd()
         if (isVibrationOnScan(this)) {
@@ -361,6 +290,20 @@ class EditActivity : AppCompatActivity() {
                 }
                 CaptureError.BLUETOOTH_NOT_ENABLED -> {
                     val i = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                    if (ActivityCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.BLUETOOTH_CONNECT
+                        ) != PackageManager.PERMISSION_GRANTED
+                    ) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return
+                    }
                     startActivity(i)
                 }
                 else -> {

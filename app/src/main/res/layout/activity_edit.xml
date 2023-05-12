@@ -4,58 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.EditActivity">
+    tools:context="com.socketmobile.stockcount.ui.EditActivity">
     <EditText
         android:id="@+id/fileEditText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/editTypeView"
         android:gravity="top|left"/>
+
     <LinearLayout
         android:id="@+id/editTypeView"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_alignParentBottom="true"
+        android:background="@color/background_gray"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:background="@color/background_gray">
+        android:rotationX="4">
+
         <Button
             android:id="@+id/scanButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/gray_rounded_normal"
-            android:text="@string/scan"/>
+            android:text="@string/scan" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"></View>
-        <Button
-            android:id="@+id/abcButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/gray_rounded_normal"
-            android:text="@string/alpha_title"/>
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"></View>
+
         <ImageButton
             android:id="@+id/deviceButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            android:src="@drawable/device_background"
-            android:background="@android:color/transparent" />
+            android:src="@drawable/device_background" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"></View>
+
         <Button
             android:id="@+id/scanRightButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/gray_rounded_normal"
-            android:text="@string/scan"/>
+            android:text="@string/scan" />
     </LinearLayout>
 </RelativeLayout>

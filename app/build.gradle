@@ -34,7 +34,7 @@ android {
 
         buildConfigField "String", "APP_CENTER_KEY", "\""+getUsername()+"\""
 
-        applicationId "com.socketmobile.stockcount"
+        applicationId "at.wolframdental.Scanner"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode getVersionCode()
