@@ -13,34 +13,25 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import android.text.method.TextKeyListener
 import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import at.wolframdental.Scanner.R
 import com.socketmobile.capture.CaptureError
 import com.socketmobile.capture.SocketCamStatus
 import com.socketmobile.capture.android.Capture
 import com.socketmobile.capture.android.events.ConnectionStateEvent
 import com.socketmobile.capture.client.*
-import com.socketmobile.capture.client.callbacks.PropertyCallback
 import com.socketmobile.capture.socketcam.client.CaptureExtension
 import com.socketmobile.capture.troy.ExtensionScope
 import com.socketmobile.stockcount.helper.*
-import com.socketmobile.stockcount.model.RMFile
-import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_edit.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.io.File
-import java.io.FileOutputStream
 import java.util.*
 
 class EditActivity : AppCompatActivity() {
