@@ -23,13 +23,7 @@
         android:layout_height="wrap_content"
         android:text="@string/no_connected_socket_scanner"
         android:textColor="@android:color/black"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:gravity="center"
-        android:text="@string/make_sure_your_scanner_is_on"
-        android:textColor="@android:color/black"/>
+
     <Button
         android:id="@+id/tryAgainButton"
         android:layout_width="wrap_content"
