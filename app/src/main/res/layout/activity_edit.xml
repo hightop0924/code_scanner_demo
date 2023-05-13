@@ -46,6 +46,7 @@
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
+            android:visibility="gone"
             android:src="@drawable/device_background" />
 
         <View
@@ -53,11 +54,5 @@
             android:layout_height="0dp"
             android:layout_weight="1"></View>
 
-        <Button
-            android:id="@+id/scanRightButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/gray_rounded_normal"
-            android:text="@string/scan" />
     </LinearLayout>
 </RelativeLayout>
