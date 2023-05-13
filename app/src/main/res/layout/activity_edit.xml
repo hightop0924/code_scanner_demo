@@ -46,7 +46,6 @@
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            android:visibility="gone"
             android:src="@drawable/device_background" />
 
         <View

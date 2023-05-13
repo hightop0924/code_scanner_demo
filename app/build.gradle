@@ -12,13 +12,6 @@ android {
 
     defaultConfig {
         def getGitVersion = { ->
-//            def stdout = new ByteArrayOutputStream()
-//            exec {
-//                commandLine 'git', 'describe', '--long'
-//                standardOutput = stdout
-//            }
-//            def gitDescribe = stdout.toString().trim()
-//            return gitDescribe.substring(0, gitDescribe.lastIndexOf("-"))
             return "0.8-93-g0b7c994"
         }
         def getVersionCode = { ->
