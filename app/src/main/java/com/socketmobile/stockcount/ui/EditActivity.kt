@@ -253,7 +253,8 @@ class EditActivity : AppCompatActivity() {
         }
 //        if (!scanButton.isEnabled)
         updateCamButton(device.isSocketCamDevice())
-        updateDeviceButton()
+        if (!device.isSocketCamDevice())
+            updateDeviceButton()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
