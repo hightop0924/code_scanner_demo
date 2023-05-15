@@ -27,7 +27,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/gray_rounded_normal"
-            android:text="@string/scan" />
+            android:enabled="false"
+            android:text="Camera" />
 
         <View
             android:layout_width="0dp"
@@ -53,5 +54,12 @@
             android:layout_height="0dp"
             android:layout_weight="1"></View>
 
+        <Button
+            android:id="@+id/refreshButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/gray_rounded_normal"
+            android:enabled="false"
+            android:text="Refresh" />
     </LinearLayout>
 </RelativeLayout>

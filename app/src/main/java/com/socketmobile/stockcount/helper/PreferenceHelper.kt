@@ -49,22 +49,22 @@ fun isVibrationOnScan(c: Context): Boolean {
 }
 
 fun getLineForBarcode(c: Context, barcode: String? = null): String {
-    var retValue = if (barcode.isNullOrEmpty()) "txt_barcode" else barcode
+    var retValue = if (barcode.isNullOrEmpty()) "Invalid barcode" else barcode
     val defaultQuantity = getDefaultQuantity(c)
-    if (autoAddQuantity(c)) {
-        retValue += if (isDelineatorComma(c)) {
-            ", $defaultQuantity"
-        } else {
-            " $defaultQuantity"
-        }
-    }
+//    if (autoAddQuantity(c)) {
+//        retValue += if (isDelineatorComma(c)) {
+//            ", $defaultQuantity"
+//        } else {
+//            " $defaultQuantity"
+//        }
+//    }
 
-    val newLineSymbol = if (isAddNewLine(c)) "\n" else ";"
-    retValue = if (!barcode.isNullOrEmpty()) {
-        newLineSymbol + retValue
-    } else {
-        retValue + newLineSymbol
-    }
+//    val newLineSymbol = if (isAddNewLine(c)) "\n" else ";"
+//    retValue = if (!barcode.isNullOrEmpty()) {
+//        newLineSymbol + retValue
+//    } else {
+//        retValue + newLineSymbol
+//    }
 
     return retValue
 }

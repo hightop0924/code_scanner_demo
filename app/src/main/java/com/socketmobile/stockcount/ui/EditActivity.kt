@@ -48,23 +48,21 @@ class EditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         fileEditText.setOnFocusChangeListener { _, hasFocus ->
             editTypeView.visibility = if (hasFocus || true) View.VISIBLE else View.GONE
         }
 
         deviceButton.isEnabled = false
         scanButton.setOnClickListener {
-            onScanClicked()
-        }
-//        scanRightButton.setOnClickListener {
+            startSocketCamExtension()
 //            onScanClicked()
-//        }
-//        abcButton.setOnClickListener {
-//            toggleKeyboardNumeric()
-//        }
-//        useTextKeyboard()
+        }
+
+        refreshButton.setOnClickListener {
+            if (canTriggerScanner()) {
+                triggerDevices()
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -249,6 +247,8 @@ class EditActivity : AppCompatActivity() {
                 Log.d(tag, "Scanner State $scannerStatus")
             }
         }
+        if (!scanButton.isEnabled)
+            updateCamButton(device.isSocketCamDevice())
         updateDeviceButton()
     }
 
@@ -340,8 +340,18 @@ class EditActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateCamButton(enabled : Boolean) {
+        runOnUiThread {
+            enableCamButton(enabled)
+        }
+    }
+
     private fun enableDeviceButton(enabled: Boolean) {
         deviceButton.isEnabled = enabled
+    }
+
+    private fun enableCamButton(enabled: Boolean) {
+        scanButton.isEnabled = enabled
     }
 }
 interface SocketCamDeviceReadyListener {
