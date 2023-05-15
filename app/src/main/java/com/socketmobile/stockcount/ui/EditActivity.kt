@@ -54,17 +54,15 @@ class EditActivity : AppCompatActivity() {
 
         deviceButton.isEnabled = false
         scanButton.setOnClickListener {
-            startSocketCamExtension()
+            if (canTriggerScanner()) {
+                triggerCamDevices()
+            }
 //            onScanClicked()
         }
 
         refreshButton.setOnClickListener {
             if (canTriggerScanner()) {
-                triggerDevices()
-            } else {
-                if (!scanButton.isEnabled) {
-                    startSocketCamExtension()
-                }
+                triggerBLDevices()
             }
         }
     }
@@ -132,7 +130,8 @@ class EditActivity : AppCompatActivity() {
         val client = captureClient ?: return
         socketCamDeviceReadyListener = object: SocketCamDeviceReadyListener {
             override fun onSocketCamDeviceReady() {
-                triggerDevices()
+                triggerBLDevices()
+                triggerCamDevices()
             }
         }
 
@@ -168,29 +167,35 @@ class EditActivity : AppCompatActivity() {
 
     private fun onScanClicked() {
         if (canTriggerScanner()) {
-            triggerDevices()
+            triggerBLDevices()
         }else {
             showCompanionDialog()
         }
     }
 
-    private fun triggerDevices() {
+    private fun triggerBLDevices() {
         val readyDevices = deviceStateMap
                 .filter { it.value.intValue() == DeviceState.READY }.keys
                 .mapNotNull { deviceClientMap[it] }
 
         var bluetoothReaders = readyDevices.filter { entry -> !entry.isSocketCamDevice() }
-        var socketCamDevices = readyDevices.filter { entry -> entry.isSocketCamDevice() }
         if (bluetoothReaders.count() > 0) {
             for(device in bluetoothReaders) {
                 device.trigger { error, property ->
                     Log.d(tag, "trigger callback : $error, $property")
                 }
             }
-        } else {
-            socketCamDevices.firstOrNull()?.trigger{ error, property ->
-                Log.d(tag, "trigger callback : $error, $property")
-            }
+        }
+    }
+
+    private fun triggerCamDevices() {
+        val readyDevices = deviceStateMap
+            .filter { it.value.intValue() == DeviceState.READY }.keys
+            .mapNotNull { deviceClientMap[it] }
+
+        var socketCamDevices = readyDevices.filter { entry -> entry.isSocketCamDevice() }
+        socketCamDevices.firstOrNull()?.trigger{ error, property ->
+            Log.d(tag, "trigger callback : $error, $property")
         }
     }
 
@@ -315,6 +320,7 @@ class EditActivity : AppCompatActivity() {
                 ConnectionState.CONNECTING -> {
                 }
                 ConnectionState.CONNECTED -> {
+                    startSocketCamExtension()
                 }
                 ConnectionState.READY -> {
 
