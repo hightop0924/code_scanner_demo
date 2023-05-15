@@ -56,8 +56,6 @@ class EditActivity : AppCompatActivity() {
         scanButton.setOnClickListener {
             if (canTriggerScanner()) {
                 triggerCamDevices()
-            } else {
-                startSocketCamExtension()
             }
         }
 
@@ -131,8 +129,8 @@ class EditActivity : AppCompatActivity() {
         val client = captureClient ?: return
         socketCamDeviceReadyListener = object: SocketCamDeviceReadyListener {
             override fun onSocketCamDeviceReady() {
-                triggerBLDevices()
-                triggerCamDevices()
+//                triggerBLDevices()
+//                triggerCamDevices()
             }
         }
 
@@ -259,7 +257,6 @@ class EditActivity : AppCompatActivity() {
                 Log.d(tag, "Scanner State $scannerStatus")
             }
         }
-//        if (!scanButton.isEnabled)
         updateCamButton(device.isSocketCamDevice())
         if (!device.isSocketCamDevice())
             updateDeviceButton()
@@ -323,6 +320,7 @@ class EditActivity : AppCompatActivity() {
                 ConnectionState.CONNECTING -> {
                 }
                 ConnectionState.CONNECTED -> {
+                    startSocketCamExtension()
                 }
                 ConnectionState.READY -> {
 
