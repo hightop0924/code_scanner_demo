@@ -56,8 +56,9 @@ class EditActivity : AppCompatActivity() {
         scanButton.setOnClickListener {
             if (canTriggerScanner()) {
                 triggerCamDevices()
+            } else {
+                startSocketCamExtension()
             }
-//            onScanClicked()
         }
 
         refreshButton.setOnClickListener {
@@ -148,6 +149,8 @@ class EditActivity : AppCompatActivity() {
                                     Log.d(tag, "Failed setSocketCamStatus ${err.message}")
                                 }
                             }
+                        } else {
+                            updateCamButton(false)
                         }
                     }
 
@@ -320,7 +323,6 @@ class EditActivity : AppCompatActivity() {
                 ConnectionState.CONNECTING -> {
                 }
                 ConnectionState.CONNECTED -> {
-                    startSocketCamExtension()
                 }
                 ConnectionState.READY -> {
 
