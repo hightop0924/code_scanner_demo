@@ -61,6 +61,8 @@ class EditActivity : AppCompatActivity() {
         refreshButton.setOnClickListener {
             if (canTriggerScanner()) {
                 triggerDevices()
+            } else {
+                startSocketCamExtension()
             }
         }
     }
@@ -247,8 +249,8 @@ class EditActivity : AppCompatActivity() {
                 Log.d(tag, "Scanner State $scannerStatus")
             }
         }
-        if (!scanButton.isEnabled)
-            updateCamButton(device.isSocketCamDevice())
+//        if (!scanButton.isEnabled)
+//            updateCamButton(device.isSocketCamDevice())
         updateDeviceButton()
     }
 

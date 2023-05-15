@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/gray_rounded_normal"
-            android:enabled="false"
+            android:enabled="true"
             android:text="Camera" />
 
         <View
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/gray_rounded_normal"
-            android:enabled="false"
+            android:enabled="true"
             android:text="Refresh" />
     </LinearLayout>
 </RelativeLayout>
