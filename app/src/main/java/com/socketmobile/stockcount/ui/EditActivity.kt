@@ -322,7 +322,7 @@ class EditActivity : AppCompatActivity() {
                 }
             }
         }
-        updateDeviceButton()
+//        updateDeviceButton()
     }
 
     private fun isServiceConnected(): Boolean {
