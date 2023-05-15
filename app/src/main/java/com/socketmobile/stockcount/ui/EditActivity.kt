@@ -250,7 +250,7 @@ class EditActivity : AppCompatActivity() {
             }
         }
 //        if (!scanButton.isEnabled)
-//            updateCamButton(device.isSocketCamDevice())
+            updateCamButton(device.isSocketCamDevice())
         updateDeviceButton()
     }
 
