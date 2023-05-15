@@ -62,7 +62,9 @@ class EditActivity : AppCompatActivity() {
             if (canTriggerScanner()) {
                 triggerDevices()
             } else {
-                startSocketCamExtension()
+                if (!scanButton.isEnabled) {
+                    startSocketCamExtension()
+                }
             }
         }
     }
@@ -250,7 +252,7 @@ class EditActivity : AppCompatActivity() {
             }
         }
 //        if (!scanButton.isEnabled)
-            updateCamButton(device.isSocketCamDevice())
+        updateCamButton(device.isSocketCamDevice())
         updateDeviceButton()
     }
 
