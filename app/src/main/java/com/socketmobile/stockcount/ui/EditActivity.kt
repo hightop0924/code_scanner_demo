@@ -59,11 +59,11 @@ class EditActivity : AppCompatActivity() {
             }
         }
 
-        refreshButton.setOnClickListener {
-            if (canTriggerScanner()) {
-                triggerBLDevices()
-            }
-        }
+//        refreshButton.setOnClickListener {
+//            if (canTriggerScanner()) {
+//                triggerBLDevices()
+//            }
+//        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -167,26 +167,35 @@ class EditActivity : AppCompatActivity() {
     }
 
     private fun onScanClicked() {
-        if (canTriggerScanner()) {
-            triggerBLDevices()
-        }else {
-            showCompanionDialog()
-        }
+//        if (canTriggerScanner()) {
+//            triggerBLDevices()
+//        }else {
+//            showCompanionDialog()
+//        }
     }
 
-    private fun triggerBLDevices() {
+//    private fun triggerBLDevices() {
+//        val readyDevices = deviceStateMap
+//                .filter { it.value.intValue() == DeviceState.READY }.keys
+//                .mapNotNull { deviceClientMap[it] }
+//
+//        var bluetoothReaders = readyDevices.filter { entry -> !entry.isSocketCamDevice() }
+//        if (bluetoothReaders.count() > 0) {
+//            for(device in bluetoothReaders) {
+//                device.trigger { error, property ->
+//                    Log.d(tag, "trigger callback : $error, $property")
+//                }
+//            }
+//        }
+//    }
+
+    private fun hasBLDevices() : Boolean {
         val readyDevices = deviceStateMap
-                .filter { it.value.intValue() == DeviceState.READY }.keys
-                .mapNotNull { deviceClientMap[it] }
+            .filter { it.value.intValue() == DeviceState.READY }.keys
+            .mapNotNull { deviceClientMap[it] }
 
         var bluetoothReaders = readyDevices.filter { entry -> !entry.isSocketCamDevice() }
-        if (bluetoothReaders.count() > 0) {
-            for(device in bluetoothReaders) {
-                device.trigger { error, property ->
-                    Log.d(tag, "trigger callback : $error, $property")
-                }
-            }
-        }
+        return (bluetoothReaders.isNotEmpty())
     }
 
     private fun triggerCamDevices() {
@@ -198,6 +207,15 @@ class EditActivity : AppCompatActivity() {
         socketCamDevices.firstOrNull()?.trigger{ error, property ->
             Log.d(tag, "trigger callback : $error, $property")
         }
+    }
+
+    private fun hasCamDevices(): Boolean {
+        val readyDevices = deviceStateMap
+            .filter { it.value.intValue() == DeviceState.READY }.keys
+            .mapNotNull { deviceClientMap[it] }
+
+        var socketCamDevices = readyDevices.filter { entry -> entry.isSocketCamDevice() }
+        return socketCamDevices.isNotEmpty()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -247,6 +265,8 @@ class EditActivity : AppCompatActivity() {
                 Log.d(tag, "Scanner State Ready.")
                 socketCamDeviceReadyListener?.onSocketCamDeviceReady()
                 socketCamDeviceReadyListener = null
+                updateCamButton(hasCamDevices())
+                updateDeviceButton(hasBLDevices())
             }
             DeviceState.GONE -> {
                 Log.d(tag, "Scanner State Gone.")
@@ -257,9 +277,7 @@ class EditActivity : AppCompatActivity() {
                 Log.d(tag, "Scanner State $scannerStatus")
             }
         }
-        updateCamButton(device.isSocketCamDevice())
-        if (!device.isSocketCamDevice())
-            updateDeviceButton()
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
@@ -345,9 +363,9 @@ class EditActivity : AppCompatActivity() {
     private fun canTriggerScanner(): Boolean {
         return isServiceConnected() && isConnectedDevice()
     }
-    private fun updateDeviceButton() {
+    private fun updateDeviceButton(enabled: Boolean) {
         runOnUiThread {
-            enableDeviceButton(canTriggerScanner())
+            enableDeviceButton(enabled)
         }
     }
 

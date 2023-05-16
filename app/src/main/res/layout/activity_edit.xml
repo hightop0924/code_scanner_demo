@@ -60,6 +60,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/gray_rounded_normal"
             android:enabled="true"
+            android:visibility="gone"
             android:text="Refresh" />
     </LinearLayout>
 </RelativeLayout>
