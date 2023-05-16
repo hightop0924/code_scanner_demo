@@ -58,53 +58,13 @@ class EditActivity : AppCompatActivity() {
                 triggerCamDevices()
             }
         }
-
-//        refreshButton.setOnClickListener {
-//            if (canTriggerScanner()) {
-//                triggerBLDevices()
-//            }
-//        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when(item?.itemId) {
-//            R.id.menuDelete -> {
-//                val dialog = AlertDialog.Builder(this)
-//                        .setPositiveButton(R.string.ok) { _, _ ->
-//                            deleteRMFile(file)
-//                            finish()
-//                        }.setNegativeButton(R.string.cancel) { dialog, _ ->
-//                            dialog?.dismiss()
-//                        }.setMessage("Remove file '${getFileNameWithExt(this, file)}'?")
-//                        .create()
-//                dialog.show()
-//            }
-//            R.id.menuSave -> {
-//                Realm.getDefaultInstance().executeTransaction {
-//                    file.fileContent = fileEditText.text.toString()
-//                    val lines = file.fileContent.split("\n")
-//                    if (lines.isNotEmpty()) {
-//                        file.fileTitle = lines[0].trim()
-//                    }
-//                    if (lines.size > 1) {
-//                        file.firstScan = lines[1].trim()
-//                    }
-//                }
-//                hideKeyboard()
-//                finish()
-//            }
-//            R.id.menuShare -> {
-//                Realm.getDefaultInstance().executeTransaction {
-//                    file.fileContent = fileEditText.text.toString()
-//                }
-//                shareContent()
-//            }
-//        }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.edit, menu)
         return true
     }
 
@@ -129,8 +89,6 @@ class EditActivity : AppCompatActivity() {
         val client = captureClient ?: return
         socketCamDeviceReadyListener = object: SocketCamDeviceReadyListener {
             override fun onSocketCamDeviceReady() {
-//                triggerBLDevices()
-//                triggerCamDevices()
             }
         }
 
@@ -165,29 +123,6 @@ class EditActivity : AppCompatActivity() {
     private fun stopSocketCamExtension() {
         captureExtension?.stop()
     }
-
-    private fun onScanClicked() {
-//        if (canTriggerScanner()) {
-//            triggerBLDevices()
-//        }else {
-//            showCompanionDialog()
-//        }
-    }
-
-//    private fun triggerBLDevices() {
-//        val readyDevices = deviceStateMap
-//                .filter { it.value.intValue() == DeviceState.READY }.keys
-//                .mapNotNull { deviceClientMap[it] }
-//
-//        var bluetoothReaders = readyDevices.filter { entry -> !entry.isSocketCamDevice() }
-//        if (bluetoothReaders.count() > 0) {
-//            for(device in bluetoothReaders) {
-//                device.trigger { error, property ->
-//                    Log.d(tag, "trigger callback : $error, $property")
-//                }
-//            }
-//        }
-//    }
 
     private fun hasBLDevices() : Boolean {
         val readyDevices = deviceStateMap
@@ -351,7 +286,6 @@ class EditActivity : AppCompatActivity() {
                 }
             }
         }
-//        updateDeviceButton()
     }
 
     private fun isServiceConnected(): Boolean {
