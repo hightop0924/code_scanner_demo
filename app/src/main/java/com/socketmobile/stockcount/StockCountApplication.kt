@@ -14,8 +14,6 @@ class StockCountApplication: Application() {
     override fun onCreate() {
         super.onCreate()
 
-        Capture.builder(applicationContext)
-                .enableLogging(true)
-                .build()
+
     }
 }

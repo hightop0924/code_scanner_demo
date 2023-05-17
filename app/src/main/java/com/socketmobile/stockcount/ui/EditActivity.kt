@@ -45,7 +45,9 @@ class EditActivity : AppCompatActivity() {
     private var socketCamDeviceReadyListener: SocketCamDeviceReadyListener? = null
 
     override fun onResume() {
-        startSocketCamExtension()
+        Capture.builder(applicationContext)
+            .enableLogging(true)
+            .build()
         super.onResume()
     }
 
