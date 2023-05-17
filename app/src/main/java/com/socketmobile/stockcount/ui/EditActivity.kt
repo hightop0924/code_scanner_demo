@@ -60,9 +60,7 @@ class EditActivity : AppCompatActivity() {
         deviceButton.isEnabled = false
         scanButton.setOnClickListener {
 //            if (canTriggerScanner())
-            {
-                triggerCamDevices()
-            }
+            triggerCamDevices()
         }
     }
 
