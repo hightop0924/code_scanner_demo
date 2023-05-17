@@ -45,9 +45,6 @@ class EditActivity : AppCompatActivity() {
     private var socketCamDeviceReadyListener: SocketCamDeviceReadyListener? = null
 
     override fun onResume() {
-        Capture.builder(applicationContext)
-            .enableLogging(true)
-            .build()
         super.onResume()
     }
 
@@ -55,15 +52,31 @@ class EditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
-//        fileEditText.setOnFocusChangeListener { _, hasFocus ->
-//            editTypeView.visibility = if (hasFocus || true) View.VISIBLE else View.GONE
-//        }
+        Capture.builder(applicationContext)
+            .enableLogging(true)
+            .build()
 
         deviceButton.isEnabled = false
         scanButton.setOnClickListener {
-//            if (canTriggerScanner())
             triggerCamDevices()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        captureExtension?.stop()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onPause() {
+        super.onPause()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

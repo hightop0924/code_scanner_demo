@@ -13,7 +13,5 @@ import java.io.IOException
 class StockCountApplication: Application() {
     override fun onCreate() {
         super.onCreate()
-
-
     }
 }
