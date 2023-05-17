@@ -44,17 +44,23 @@ class EditActivity : AppCompatActivity() {
     private val deviceClientMap = HashMap<String, DeviceClient>()
     private var socketCamDeviceReadyListener: SocketCamDeviceReadyListener? = null
 
+    override fun onResume() {
+        startSocketCamExtension()
+        super.onResume()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
-        fileEditText.setOnFocusChangeListener { _, hasFocus ->
-            editTypeView.visibility = if (hasFocus || true) View.VISIBLE else View.GONE
-        }
+//        fileEditText.setOnFocusChangeListener { _, hasFocus ->
+//            editTypeView.visibility = if (hasFocus || true) View.VISIBLE else View.GONE
+//        }
 
         deviceButton.isEnabled = false
         scanButton.setOnClickListener {
-            if (canTriggerScanner()) {
+//            if (canTriggerScanner())
+            {
                 triggerCamDevices()
             }
         }
@@ -200,8 +206,6 @@ class EditActivity : AppCompatActivity() {
                 Log.d(tag, "Scanner State Ready.")
                 socketCamDeviceReadyListener?.onSocketCamDeviceReady()
                 socketCamDeviceReadyListener = null
-                updateCamButton(hasCamDevices())
-                updateDeviceButton(hasBLDevices())
             }
             DeviceState.GONE -> {
                 Log.d(tag, "Scanner State Gone.")
@@ -212,7 +216,8 @@ class EditActivity : AppCompatActivity() {
                 Log.d(tag, "Scanner State $scannerStatus")
             }
         }
-
+        updateCamButton(hasCamDevices())
+        updateDeviceButton(hasBLDevices())
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
